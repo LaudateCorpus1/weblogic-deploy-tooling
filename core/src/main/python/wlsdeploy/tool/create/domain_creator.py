@@ -426,6 +426,7 @@ class DomainCreator(Creator):
         """
         _method_name = '__create_base_domain'
 
+        self.__set_topology_profile()
         self.logger.entering(domain_home, class_name=self.__class_name, method_name=_method_name)
         base_template = self._domain_typedef.get_base_template()
         self.logger.info('WLSDPLY-12204', base_template, class_name=self.__class_name, method_name=_method_name)
@@ -1133,6 +1134,16 @@ class DomainCreator(Creator):
 
         self.logger.exiting(class_name=self.__class_name, method_name=_method_name)
         return
+
+    def __set_topology_profile(self):
+        _method_name = '__set_topology_profile'
+        self.logger.entering(class_name=self.__class_name, method_name=_method_name)
+        if TOPOLOGY_PROFILE in self._domain_info:
+            topology_profile = self._domain_info[TOPOLOGY_PROFILE]
+            self.wlst_helper.__set_topology_profile(topology_profile)
+            self.logger.fine('WLSDPLY-12225', TOPOLOGY_PROFILE, model.get_model_domain_info_key(), 'setTopologyProfile',
+                             topology_profile, class_name=self.__class_name, method_name=_method_name)
+        self.logger.exiting(class_name=self.__class_name, method_name=_method_name)
 
     def __set_app_dir(self):
         """

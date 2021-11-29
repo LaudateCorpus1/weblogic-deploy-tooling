@@ -355,6 +355,21 @@ class WlstHelper(object):
             raise pwe
         self.__logger.exiting(class_name=self.__class_name, method_name=_method_name)
 
+    def set_topology_profile(self, topology_profile):
+        """
+        Set the topology_profile. Offline wlst online.
+        """
+        _method_name = 'set_topology_profile'
+        self.__logger.entering(topology_profile, class_name=self.__class_name, method_name=_method_name)
+        try:
+            self.__load_global('setTopologyProfile')(topology_profile)
+        except offlineWLSTException, e:
+            pwe = exception_helper.create_exception(self.__exception_type, 'WLSDPLY-00128', topology_profile,
+                                                    e.getLocalizedMessage(), error=e)
+            self.__logger.throwing(pwe, class_name=self.__class_name, method_name=_method_name)
+            raise pwe
+        self.__logger.exiting(class_name=self.__class_name, method_name=_method_name)
+
     def modify_bootstrap_credentials(self, jps_configfile, username, password):
         """
         modify the boot strap credentials in a JRF domain
